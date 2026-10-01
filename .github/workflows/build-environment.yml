@@ -1,0 +1,37 @@
+name: Build learner environment
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: environment-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  publish:
+    # GitHub-hosted x86-64 Linux runner with pinned Nix and Node 24
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Validate, build, publish and bind immutable environment
+        run: node --experimental-strip-types environment/publish.ts
+        env:
+          PLATFORM_URL: ${{ vars.PLATFORM_URL }}
+          PLATFORM_RESOURCE_IDS: ${{ vars.PLATFORM_RESOURCE_IDS }}
+          CACHE_PUBLIC_URL: ${{ vars.CACHE_PUBLIC_URL }}
+          CACHE_UPLOAD_URL: ${{ vars.CACHE_UPLOAD_URL }}
+          NIX_PUBLIC_KEY: ${{ vars.NIX_PUBLIC_KEY }}
+          NIX_SIGNING_KEY: ${{ secrets.NIX_SIGNING_KEY }}
+          CACHE_UPLOAD_TOKEN: ${{ secrets.CACHE_UPLOAD_TOKEN }}
