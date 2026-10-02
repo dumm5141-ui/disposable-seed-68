@@ -52,6 +52,11 @@
         "audience": "LEARNER"
       },
       {
+        "path": "server.ts",
+        "repositoryPath": "learning/course-browser/Array_Algorithms/Next_JS/Counter/starter/server.ts",
+        "audience": "LEARNER"
+      },
+      {
         "path": "counter.tsx",
         "repositoryPath": "learning/course-browser/Array_Algorithms/Next_JS/Counter/reference/counter.tsx",
         "audience": "REFERENCE"
