@@ -25,6 +25,8 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
+      - name: Validate Next.js starter standalone server
+        run: node --experimental-strip-types learning/course-browser/Array_Algorithms/Next_JS/Counter/starter/server.ts --test
       - name: Validate, build, publish and bind immutable environment
         run: node --experimental-strip-types environment/publish.ts
         env:
