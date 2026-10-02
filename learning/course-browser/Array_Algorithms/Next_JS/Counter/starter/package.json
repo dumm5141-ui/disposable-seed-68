@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "nextjs-counter-prepare",
-    "dev": "next dev --hostname 0.0.0.0 --port 3000",
+    "dev": "node --experimental-strip-types server.ts",
     "build": "next build",
-    "start": "next start"
+    "start": "node --experimental-strip-types server.ts"
   },
   "dependencies": {
     "next": "15.5.26",
